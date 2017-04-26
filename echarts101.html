@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>ECharts初识</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <style>
+        .chart {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section data-toc-id="Title">
+                <h1>ECharts初识</h1>
+                <footer>
+                    李立强<br/> 大数据事业部
+                </footer>
+            </section>
+            <section toc="图的作用">
+                <h2>图表的作用</h2>
+                <p class="fragment">数据可视化</p>
+            </section>
+            <section>
+                <section>
+                    <h2>常见的图</h2>
+                </section>
+                <section>
+                    <h2>柱状图</h2>
+                    <div class="chart" id="bar"></div>
+                </section>
+                <section>
+                    <h2>折线图</h2>
+                    <div class="chart" id="line"></div>
+                </section>
+                <section>
+                    <h2>散点图</h2>
+                    <div class="chart" id="scatter"></div>
+                </section>
+                <section>
+                    <h2>饼图</h2>
+                    <div class="chart" id="pie"></div>
+                </section>
+                <section>
+                    <h2>雷达图</h2>
+                    <div class="chart" id="radar"></div>
+                </section>
+                <section>
+                    <h2>地图</h2>
+                    <div class="chart" id="map"></div>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>图中包含了哪些内容</h2>
+                </section>
+                <section>图</section>
+                <section>标题</section>
+                <section>轴</section>
+                <section>legend</section>
+                <section>tooltip</section>
+                <section>visualMap</section>
+                <section>markPoint</section>
+                <section>markLine</section>
+            </section>
+            <section>
+                <section>
+                    <h2>echarts提供了哪些内容</h2>
+                </section>
+                <section>
+                    <h3>图形方面</h3>
+                    <ul>
+                        <li>k线图</li>
+                        <li>箱线图</li>
+                        <li>热力图</li>
+                        <li>关系图</li>
+                        <li>矩形树图</li>
+                        <li>平行坐标</li>
+                        <li>桑基图</li>
+                        <li>漏斗图</li>
+                        <li>仪表盘</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>交互方面</h3>
+                    <ul>
+                        <li>toolbox</li>
+                        <li>timeline</li>
+                        <li>graphic</li>
+                        <li>brush</li>
+                        <li>dataZoom</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>echarts基础</h2>
+                </section>
+                <section>
+                    <h3>配置与API</h3>
+                </section>
+                <section>
+                    <h3>配置的层级</h3>
+                    <p>全局、系列、数据</p>
+                    <pre class="fragment"><code>	myChart.setOption({
+		backgroundColor: '#2c343c',
+		series : [{
+				name: '访问来源',
+				type: 'pie',
+				radius: '55%',
+				data:[
+					{value:400, name:'搜索引擎'},
+					{value:335, name:'直接访问'},
+					{value:310, name:'邮件营销'},
+					{value:274, name:'联盟广告'},
+					{value:235, name:'视频广告'}
+				]
+			}]
+	})
+					</code></pre>
+                </section>
+            </section>
+            <section>
+                <h2>示例讲解</h2>
+                <section>
+                    <a target="_blank" href="http://echarts.baidu.com/gallery/editor.html?c=bar-tick-align">柱状图</a>
+                    <div></div>
+                </section>
+                <section>
+                    <a target="_blank" href="http://echarts.baidu.com/gallery/editor.html?c=pie-simple">饼图</a>
+                    <div></div>
+                </section>
+                <section>
+                    <a target="_blank" href="http://echarts.baidu.com/gallery/editor.html?c=radar">雷达图</a>
+                    <div></div>
+                </section>
+                <section>
+                    <a target="_blank" href="http://echarts.baidu.com/gallery/editor.html?c=bubble-gradient">散点图</a>
+                    <div></div>
+                </section>
+                <section>
+                    <a target="_blank" href="http://echarts.baidu.com/gallery/editor.html?c=line-marker">折线图</a>
+                    <div></div>
+                </section>
+                <section>
+                    <a target="_blank" href="http://echarts.baidu.com/gallery/editor.html?c=geo-lines">地图1</a>
+                    <div></div>
+                </section>
+                <section>
+                    <a target="_blank" href="http://echarts.baidu.com/gallery/editor.html?c=map-usa">地图2</a>
+                    <div></div>
+                </section>
+            </section>
+            <section>
+                <h2>资料</h2>
+                <p>官方网站: <a href="http://echarts.baidu.com/index.html">http://echarts.baidu.com/index.html</a></p>
+                <p>配置项手册: <a href="http://echarts.baidu.com/option.html">http://echarts.baidu.com/option.html</a></p>
+            </section>
+            <section>
+                <h1>Q&amp;A</h1>
+            </section>
+            <section>
+                <h1>Thank You</h1>
+            </section>
+        </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            history: true,
+
+            // More info https://github.com/hakimel/reveal.js#dependencies
+            dependencies: [{
+                src: 'plugin/markdown/marked.js'
+            }, {
+                src: 'plugin/markdown/markdown.js'
+            }, {
+                src: 'plugin/notes/notes.js',
+                async: true
+            }, {
+                src: 'plugin/highlight/highlight.js',
+                async: true,
+                callback: function() {
+                    hljs.initHighlightingOnLoad();
+                }
+            }]
+        });
+    </script>
+    <script src="slider/echarts101/js/echarts.js"></script>
+    <script src="slider/echarts101/js/china.js"></script>
+    <script src="slider/echarts101/js/chart.js"></script>
+</body>
+
+</html>

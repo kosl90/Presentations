@@ -1,0 +1,589 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>JS 编码规范及控制</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h1>JS 编码规范及控制</h1>
+                <footer>
+                    李立强<br/> 大数据事业部平台部
+                </footer>
+            </section>
+            <section>
+                <h2>大纲</h2>
+                <ul>
+                    <li>ES6 简介</li>
+                    <li>JavaScript 常用规范</li>
+                    <li>ESLint 及其用法</li>
+                </ul>
+            </section>
+            <section>
+                <section>
+                    <h2>ES6 简介</h2>
+                </section>
+                <section>
+                    <h3>let and const</h3>
+                    <pre><code class="javascript" data-trim>
+function foo() {
+  // throw ReferenceError 'a' is not defined
+  console.log(a);
+  let a = 1;
+}
+foo();
+
+function bar(a) {
+  if (a == 1) {
+    let b = 2;
+  }
+
+  // throw ReferenceError 'b' is not defined
+  console.log(b);
+}
+bar(1);
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>Arrow Functions</h3>
+                    <pre><code class="javascript" data-trim>
+[1,2,3].map(x =&gt; x + 1);
+[1,2,3].reduce((total, num) =&gt; total + num, 0);
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Class</h3>
+                    <pre><code class="javascript" data-trim>
+class Foo {
+  constructor() {
+    console.log('Foo...');
+  }
+}
+
+class Bar extends Foo {
+  constructor() {
+    super();
+    console.log('Bar...');
+  }
+}
+</code></pre>
+                </section>
+                <section>
+                    <h3>Shorthand</h3>
+                    <pre><code class="javascript" data-trim>
+const atom = {
+  value: 1,
+
+  // equals to `addValue: function (value) {`
+  addValue(value) {
+    return atom.value + value;
+  },
+};
+
+const name = 'Jhon';
+persons.push({
+  // equals to `name: name`
+  name,
+  gender: 'male',
+});
+</code></pre>
+                </section>
+                <section>
+                    <h3>Object Computed Properties</h3>
+                    <pre><code class="javascript" data-trim>
+const keyName = 'keyName';
+const o = {
+  [keyName]: 'foo',
+  bar: 'baz',
+};
+
+// equals to
+const o = {
+  bar: 'baz',
+};
+o[keyName] = 'foo';
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>Template Strings</h3>
+                    <pre><code class="javascript" data-trim>
+const app = express();
+
+app.listen(config.port, (err) =&gt; {
+  console.log(`Listening at http://localhost:${config.port}`);
+});
+
+const html = `<div>
+  <!-- ... -->
+</div>
+`
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>Array Spreads</h3>
+                    <pre><code class="javascript" data-trim>
+const foo = [1, 2];
+const bar = [...foo, 3, 4];
+// =&gt; [1, 2, 3, 4]
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>Destructuring</h3>
+                    <pre><code class="javascript" data-trim>
+// object
+const {email, password} = req.body;
+
+// array
+const [firstElement, secondElement, ...rest] = [1, 2, 3];
+
+// invalid
+const [first, ...ignored, last] = [1, 2, 3];
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>Rest</h3>
+                    <pre><code class="javascript" data-trim>
+function apply(fn, ...args) {
+  fn(...args);
+}
+
+apply(console.log, 1, 2)
+// =&gt; 1 2
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>Default Parameters</h3>
+                    <pre><code class="javascript" data-trim="">
+function foo(bar, baz='default') {
+  console.log(bar, baz);
+}
+
+foo(1, 2)
+// =&gt; 1 2
+
+foo(1)
+// =&gt; 1 default
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>modules</h3>
+                    <pre><code class="javascript" data-trim>
+// equals exports.foo = foo;
+export const foo = 1;
+
+// or
+const foo = 1;
+export { foo };
+
+const bar = {
+  baz: 1
+};
+
+// equals module.exports = bar;
+export default bar;
+                        </code></pre>
+                    <pre><code class="javascript" data-trim>
+// equals to `const express = require('express');
+import 'express';
+
+// equals to `const debounce = require('lodash').debounce;
+import {debounce} from 'lodash';
+                            </code></pre>
+                    <p class="fragment">注意：import 是编译阶段执行的，不能在表达式中使用</p>
+                </section>
+                <section>
+                    <h3>更过内容</h3>
+                    <ul>
+                        <li>iterators</li>
+                        <li>generatros</li>
+                        <li>Symbol</li>
+                        <li>...</li>
+                    </ul>
+                    <p class="fragment"><a href="http://es6.ruanyifeng.com/">ECMAScript 6 入门</a></p>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>JavaScript 常用规范</h2>
+                </section>
+                <section>
+                    <h3>通用规范</h3>
+                    <ul>
+                        <li>使用 Unix 换行符</li>
+                        <li>使用 utf-8 编码</li>
+                        <li>使用 2 空格缩进</li>
+                        <li>使用具有良好描述性的变量名</li>
+                        <li>一个函数的长度不要超过一屏</li>
+                        <li>每个变量声明对应一个声明符</li>
+                        <li>除了有共识的缩写，例如 tmp，不要使用缩写</li>
+                        <li>每一行的内容，包括空白符，不要超过 100 个字符</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>命名</h3>
+                    <pre><code class="javascript" data-trim>
+// 驼峰式命名
+const fooBar = 1;
+function barBaz() {}
+
+// 大写开头的驼峰式命名（也叫帕斯卡命名）
+function ErrorUnreference() {}
+class Manager {}
+Math.sin(Math.PI);
+
+// 缩写全大写或全小写，不要大小写混合
+class HTTPRequest {};
+                    </code></pre>
+                    <pre><code class="javascript" data-trim>
+// 到处的对象名应该和文件名一致
+class CheckBox {}
+export default CheckBox;
+
+export default function someFunction() { }
+
+
+import CheckBox from './CheckBox';
+import someFunction from './someFunction';
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>blank</h3>
+                    <pre><code class="javascript" data-trim>
+// 1 space before '(' and '{'
+const foo = function () {};
+
+// no blank inside '()' same as '[]' and '{}'
+if (true) {}
+
+// 1 space between operators
+const bar = 1 + 2;
+
+// indent
+doSomeNetworkRequest()
+  .then(doSomething)
+  .then(doSomething2);
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>Comments</h3>
+                    <pre><code class="javascript" data-trim contenteditable="">
+// 所有注释都已 1 个空格开头
+
+// 这是一个行注释，位于需要注释行的上方，除了第一行，注释上一行应该有一个空行
+
+// 用于在文档注释中表示示例输出的行注释应位于下方，并紧跟一个空行
+
+/**
+ * 这是一个用于文档的注释
+ */
+
+// FIXME:
+
+// TODO:
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>类型转换</h3>
+                    <pre><code class="javascript" data-trim>
+const jhon.age = Number(age);
+
+// 使用 parseInt 的时候必须使用基数
+const jhon.age = parseInt(age, 10);
+
+const jhon.name = String(name);
+
+const isMale = Boolean(jhon.gender);
+const isMale = !!jhon.gender;
+
+if (isValid) {}
+if (name !== '') {}
+if (collection.length &gt; 0) {}
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>trailing commas</h3>
+                    <pre><code class="javascript" data-trim>
+function foo(
+  bar,
+  baz,
+  quux,
+) {
+  // ...
+}
+                    </code></pre>
+                    <pre><code class="diff" data-trim>
+// bad - git diff without trailing comma
+const hero = {
+  firstName: 'Florence',
+- lastName: 'Nightingale'
++ lastName: 'Nightingale',
++ inventorOf: ['coxcomb chart', 'modern nursing']
+};
+
+// good - git diff with trailing comma
+const hero = {
+  firstName: 'Florence',
+  lastName: 'Nightingale',
++ inventorOf: ['coxcomb chart', 'modern nursing'],
+};
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>减少缩进层级</h3>
+                    <ul>
+                        <li>Guard Clauses</li>
+                        <li>抽离成函数</li>
+                        <li>使用 try catch</li>
+                        <li>使用状态表、状态机、订阅模式等</li>
+                    </ul>
+                    <pre><code class="cpp" data-trim>
+collections.forEach((el, index) =&gt; {
+  if (index != -1) {
+    // do something
+  }
+})
+
+collections.forEach((el, index) =&gt; {
+  if (index == -1) return;
+
+  // do something
+})
+                    </code></pre>
+                    <p class="fragment"><a href="http://coolshell.cn/articles/17757.html">如何重构“箭头型”代码</a></p>
+                </section>
+                <section>
+                    <h3>使用 ES6 的方式</h3>
+                    <ul>
+                        <li>arrow function</li>
+                        <li>class and extends</li>
+                        <li>destructuring</li>
+                        <li>let and const</li>
+                        <li>module</li>
+                        <li>parameters default value</li>
+                        <li>rest</li>
+                        <li>shorthand</li>
+                        <li>spread operator</li>
+                        <li>string interpolation</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>arrow function</h3>
+                    <pre><code class="javascrip" data-trim>
+() =&gt; {};
+a =&gt; a;
+(a = 10) =&gt; a;
+[1, 2, 3].map((number, index) =&gt; ({
+  [index]: number,
+}));
+
+// bad
+const itemHeight = item =&gt; item.height &gt; 256 ? item.largeSize : item.smallSize;
+// good
+const itemHeight = (item) =&gt; {
+  const { height, largeSize, smallSize } = item;
+  return height &gt; 256 ? largeSize : smallSize;
+};
+</code></pre>
+                </section>
+                <section>
+                    <h3>import &amp; export</h3>
+                    <pre><code class="javascript" data-trim>
+// bad
+import foo from 'foo';
+// … some other imports
+import { named1, named2 } from 'foo';
+// good
+import foo, {
+  named1,
+  named2,
+} from 'foo';
+
+// bad
+export { es6 as default } from './StyleGuide';
+// good
+import { es6 } from './StyleGuide';
+export default es6;
+</code></pre>
+                </section>
+                <section>
+                    <h3>杂项</h3>
+                    <ul>
+                        <li>始终以分号结尾</li>
+                        <li>使用单引号字符串</li>
+                        <li>尽可能的使用纯函数，不要修改传入参数</li>
+                        <li>使用 map / every / filter / reduce 等高阶函数</li>
+                        <li>给事件传递数据时使用 Hash 的方式</li>
+                        <li>避免使用 `function (arg1, arg2, cb, errCB) {}`</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>ESLint 及其用法</h2>
+                </section>
+                <section>
+                    <h3>ESLint 是什么</h3>
+                    <blockquote>The pluggable linting utility for JavaScript and JSX</blockquote>
+                </section>
+                <section>
+                    <h3>如何使用 ESLint</h3>
+                    <pre><code class="bash" data-trim>
+// 全局安装 eslint
+npm i -g eslint
+
+// 初始化 eslint，最好是一个 npm 项目
+eslint --init
+
+// 使用 eslint 命令行程序检查代码
+eslint yourfile.js
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>Configuring Rules</h3>
+                    <ul>
+                        <li>'off' or 0</li>
+                        <li>'warn' or 1</li>
+                        <li>'error' or 2</li>
+                        <li>["level", "option value"]</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Configuration File</h3>
+                    <ul>
+                        <li>YAML - .eslintrc.yml/.eslintrc.yaml</li>
+                        <li>JS - .eslintrc.js</li>
+                        <li>JSON - .eslintrc.json</li>
+                        <li>Deprecated - .eslintrc</li>
+                        <li>package.json - eslintConfig</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Configuration File - YML</h3>
+                    <pre><code class="code yaml" data-trim>
+rules:
+  eqeqeq: warn,
+  curly: error,
+  quotes:
+    - error
+    - double
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Configuration File - JSON</h3>
+                    <pre><code class="json" data-trim>
+{
+    "rules": {
+        "eqeqeq": "warn",
+        "curly": "error",
+        "quotes": ["error", "double"]
+    }
+}
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>Configuration Comment</h3>
+                    <pre><code class="javascript" data-trim>/* eslint quotes: ["error", "double"], curly: 2 */</code></pre>
+
+                    <pre class="fragment"><code class="javascript" data-trim contenteditable>
+/* eslint-disable no-new-object */
+const vm = new Vue({
+  template: '<h1>Hello</h1>',
+});
+
+/* eslint-enable */
+
+// ...
+                        </code></pre>
+
+                    <pre class="fragment"><code class="javascript" data-trim>
+// eslint-disable-next-line
+const persons = new Array();
+
+const persons = new Array(); // eslint-disable-line
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>其他配置</h3>
+                    <ul>
+                        <li>plugins: rule 的集合</li>
+                        <li>extends: ESLint 的配置对象</li>
+                        <li>settings: 公用的设置，会应用到每条 rule</li>
+                        <li>parser</li>
+                        <li>parserOptions</li>
+                        <li>root</li>
+                        <li>env</li>
+                        <li>globals</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <h2>Q&amp;A</h2>
+            </section>
+            <section>
+                <h2>Thank U!</h2>
+            </section>
+            <section>
+                <h2>资源</h2>
+                <dl>
+                    <dt>ECMAScript 6 入门</dt>
+                    <dd><a href="http://es6.ruanyifeng.com/">http://es6.ruanyifeng.com/</a></dd>
+                    <dt>Airbnb JavaScript Style Guide</dt>
+                    <dd><a href="https://github.com/airbnb/javascript">https://github.com/airbnb/javascript</a></dd>
+                    <dt>如何重构“箭头型”代码</dt>
+                    <dd><a href="http://coolshell.cn/articles/17757.html">http://coolshell.cn/articles/17757.html</a></dd>
+                    <dt>ESLint 配置</dt>
+                    <dd><a href="http://eslint.org/docs/user-guide/configuring">http://eslint.org/docs/user-guide/configuring</a></dd>
+                </dl>
+            </section>
+        </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            history: true,
+
+            // More info https://github.com/hakimel/reveal.js#dependencies
+            dependencies: [{
+                src: 'plugin/markdown/marked.js'
+            }, {
+                src: 'plugin/markdown/markdown.js'
+            }, {
+                src: 'plugin/notes/notes.js',
+                async: true
+            }, {
+                src: 'plugin/highlight/highlight.js',
+                async: true,
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }]
+        });
+    </script>
+</body>
+
+</html>

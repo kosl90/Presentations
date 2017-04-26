@@ -1,0 +1,401 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>开发者项目开发准备</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <center class="slides">
+            <section>
+                <h1>开发者项目开发准备</h1>
+                <footer>
+                    李立强<br/> 大数据事业部-平台部
+                </footer>
+            </section>
+            <section>
+                <section>
+                    <h2>目录结构</h2>
+                </section>
+                <section>
+                    <h3>顶层目录</h3>
+                    <ul>
+                        <li>build 构建相关的配置和文件</li>
+                        <li>client 客户端相关的内容，此项目为网页相关的内容</li>
+                        <li> config 项目的配置</li>
+                        <li>dist 生成内容</li>
+                        <li>docs 项目相关文档</li>
+                        <li>scripts 一些辅助脚本</li>
+                        <li>server 服务端程序</li>
+                        <li>static 静态文件的存放位置</li>
+                        <li>test 测试</li>
+                        <li>views 模板文件</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>client 目录</h3>
+                    <ul>
+                        <li>assets 一些前端使用静态文件，如图片</li>
+                        <li>components 一些无副作用的组件</li>
+                        <li>containers 一些由副作用的组件</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>server 目录</h3>
+                    <ul>
+                        <li>boot 启动 server 时做处理，可能会去掉</li>
+                        <li>helper 公用的辅助代码</li>
+                        <li>middlewares 中间件</li>
+                        <li>routes server 端路由</li>
+                        <li>service 独立的 service，提供某种服务，例如登陆登出</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>test 目录</h3>
+                    <ul>
+                        <li>e2e 集成测试</li>
+                        <li>unit 单元测试</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>如何使用</h2>
+                    <pre style="width:95%"><code>
+{
+  "dev": "nodemon --watch server server/main.js",
+  "start": "cross-env NODE_ENV=production node server/main.js",
+  "build": "node build/build.js",
+  "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
+  "unit-ci": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js",
+  "e2e": "node test/e2e/runner.js",
+  "test": "npm run unit && npm run e2e",
+  "lint": "eslint --ext .js,.vue client server test/unit/specs test/e2e/specs"
+}
+                        </code></pre>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>选型和工具</h2>
+                </section>
+                <section>
+                    <ul>
+                        <li>vue</li>
+                        <li>scss (stylus 或 cssnext)</li>
+                        <li>es6, es7</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>代码规范</h3>
+                    <ul>
+                        <li>markdown</li>
+                        <li>javascript</li>
+                        <li>css</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>markdown</h3>
+                    <ul>
+                        <li>标题和段落之间隔一行</li>
+                        <li>标题和之标题之间隔一行</li>
+                        <li>同级标题之间隔两行</li>
+                        <li>标题和表示标题大小的 # 之间存在一个空格，引用同样</li>
+                        <li>不要跨级使用标题</li>
+                        <li>英文和中文之间加空格</li>
+                        <li>数字和中文之间加空格</li>
+                        <li>全角标点和其他字符之间不加空格</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>JavaScript and CSS</h3>
+                    <ul>
+                        <li>2 空格缩进</li>
+                        <li>使用 lf 作为换行符</li>
+                        <li>utf-8 编码</li>
+                        <li>行尾不要有空白符</li>
+                        <li>文件结尾可有唯一空行</li>
+                        <li>Airbnb JavaScript Style Guide</li>
+                        <li>BEM （可以考虑使用其他方案）</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>工具</h3>
+                    <ul>
+                        <li>editorconfig</li>
+                        <li>eslint</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>webpack</h2>
+                </section>
+                <section>
+                    <h3>与 gulp 和 grunt 的区别</h3>
+                </section>
+                <section>
+                    <h3>自身的定位</h3>
+                    <blockquote class="fragment">grunt: The JavaScript Task Runner</blockquote>
+                    <blockquote class="fragment">gulp: The streaming build system</blockquote>
+                    <blockquote class="fragment">webpack: A module bundler</blockquote>
+                </section>
+                <section>
+                    <h4>gulp 和 grunt 如何处理资源</h4>
+                    <img src="slider/devcenter/imgs/taskrunner.png">
+                </section>
+                <section>
+                    <h4>webpack 如何处理资源</h4>
+                    <img src="slider/devcenter/imgs/webpack.png">
+                </section>
+                <section>
+                    <h3>webpack 是什么</h3>
+                    <div class="fragment">
+                        <p>webpack is a module bundler. Its main purpose is to bundle JavaScript files for usage in a browser,
+                            yet it is also capable of transforming, bundling, or packaging just about any resource or asset.</p>
+                        <p>资源的打包器</p>
+                        <img src="slider/devcenter/imgs/webpack.svg">
+                    </div>
+                </section>
+                <section>
+                    <h3>webpack 基础</h3>
+                </section>
+                <section>
+                    <h4>entry</h4>
+                    <p>webpack 根据依赖形成依赖图，图的入口称为 entry point。webpack 使用 entry 定义 entry point。</p>
+                </section>
+                <section>
+                    <h4>output</h4>
+                    <p>处理 webpack 打包好的内容</p>
+                    <div class="fragment">
+                        <p>path: 绝对路径</p>
+                        <p>filename: 小心路径问题</p>
+                    </div>
+                </section>
+                <section>
+                    <h4>loader</h4>
+                    <p>webpack 将每一个文件视为一个模块，但是 webpack 只理解 JavaScript，需要使用 loader 将这些文件转换为模块</p>
+                </section>
+                <section>
+                    <h4>plugin</h4>
+                    <p>loader 用来转换文件，其他的工作则交由 plugin 处理</p>
+                </section>
+                <section>
+                    <h4>Example</h4>
+                    <pre><code style="max-height: 90%">const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
+const webpack = require('webpack'); //to access built-in plugins
+const path = require('path');
+
+const config = {
+  entry: './path/to/my/entry/file.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js'
+  },
+  module: {
+    rules: [
+      {test: /\.(js|jsx)$/, use: 'babel-loader'}
+    ]
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin(),
+    new HtmlWebpackPlugin({template: './src/index.html'})
+  ]
+};
+
+module.exports = config;
+                        </code></pre>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Git</h2>
+                </section>
+                <section>
+                    <h3>git 不是什么</h3>
+                    <p class="fragment">Github，没有权限控制等功能</p>
+                </section>
+                <section>
+                    <h3>git 是什么</h3>
+                    <p class="fragment">分布式版本控制系统，追踪文件</p>
+                </section>
+                <section>
+                    <h3>本地仓库与远程仓库</h3>
+                    <img src="slider/devcenter/imgs/syncing.svg" title="title">
+                </section>
+                <section>
+                    <h3>stage 策略</h3>
+                    <img src="slider/devcenter/imgs/workflow.png" title="workflow">
+                </section>
+                <section>
+                    <h3>工作模式</h3>
+                    <ul>
+                        <li>Centralized 工作模式</li>
+                        <li>Feature Branch 工作模式</li>
+                        <li>Gitflow 工作模式</li>
+                        <li>Forking 工作模式</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Centralized 工作模式</h3>
+                    <img src="slider/devcenter/imgs/centralized-workflow.svg">
+                </section>
+                <section>
+                    <h3>Feature Branch 工作模式</h3>
+                    <img src="slider/devcenter/imgs/feature-branch-workflow.svg">
+                </section>
+                <section>
+                    <h3>Gitflow 工作模式</h3>
+                    <img style="width:85%" src="slider/devcenter/imgs/gitflow-workflow.svg">
+                </section>
+                <section>
+                    <h3>Forking 工作模式</h3>
+                    <img src="slider/devcenter/imgs/forking-workflow.svg">
+                </section>
+                <section>
+                    <h3>Git commit message</h3>
+                </section>
+                <section>
+                    <h4>format 1</h4>
+                    <pre>&lt;subject&gt;
+
+&lt;body&gt;
+
+&lt;footer&gt;</pre>
+                </section>
+                <section>
+                    <pre>Summarize changes in around 50 characters or less
+
+More detailed explanatory text, if necessary. Wrap it to about 72
+characters or so. In some contexts, the first line is treated as the
+subject of the commit and the rest of the text as the body. The
+blank line separating the summary from the body is critical (unless
+you omit the body entirely); various tools like `log`, `shortlog`
+and `rebase` can get confused if you run the two together.
+
+Explain the problem that this commit is solving. Focus on why you
+are making this change as opposed to how (the code explains that).
+Are there side effects or other unintuitive consequences of this
+change? Here's the place to explain them.
+
+Further paragraphs come after blank lines.
+
+ - Bullet points are okay, too
+
+ - Typically a hyphen or asterisk is used for the bullet, preceded
+   by a single space, with blank lines in between, but conventions
+   vary here
+
+If you use an issue tracker, put references to them at the bottom,
+like this:
+
+Resolves: #123
+See also: #456, #789</pre>
+                </section>
+                <section>
+                    <h4>format 2</h4>
+                    <pre>&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;
+
+&lt;body&gt;
+
+&lt;footer&gt;
+                    </pre>
+                </section>
+                <section>
+                    <pre>fix(middleware): ensure Range headers adhere more closely to RFC 2616
+
+Added one new dependency, use `range-parser` (Express dependency) to compute
+range. It is more well-tested in the wild.
+
+Fixes #2310</pre>
+                </section>
+                <section>
+                    <ul>
+                        <li>50 个字符以内</li>
+                        <li>主题行大写开头</li>
+                        <li>主题行不要以句号结尾</li>
+                        <li>主题行中使用祈使句</li>
+                        <li>正文在 72 个字符出这行</li>
+                        <li>使用正文解释 <i>是什么</i> 和 <i>为什么</i> 而不是 <i>怎么样</i></li>
+                    </ul>
+                </section>
+                <section>
+                    <pre><code>
+git config --global core.eof lf
+git config --global core.autocrlf input # 检出时不转换换行符
+git config --global core.safecrlf true # 不允许混合换行符
+                    </code></pre>
+                </section>
+            </section>
+            <section>
+                <h1>Q&amp;A</h1>
+            </section>
+            <section>
+                <h1>Thank You</h1>
+            </section>
+            <!--<section>
+                <h2>资料</h2>
+                <div style="text-align: left">
+                    <p>中文排版指南：<a href="https://github.com/sparanoid/chinese-copywriting-guidelines">https://github.com/sparanoid/chinese-copywriting-guidelines</a></p>
+                    <p>webpack 教程：<a href="https://llp0574.github.io/2016/11/29/getting-started-with-webpack2/">https://llp0574.github.io/2016/11/29/getting-started-with-webpack2/</a></p>
+                    <p>webpack 官网：<a href="https://webpack.js.org/">https://webpack.js.org/</a></p>
+                    <p>atlassian git 教程：<a href="https://www.atlassian.com/git/tutorials">https://www.atlassian.com/git/tutorials</a></p>
+                    <p>Pro Git：<a href="https://git-scm.com/book/en/v2">https://git-scm.com/book/en/v2</a></p>
+                    <p>git commit 翻译：<a href="http://jiongks.name/blog/git-commit/">http://jiongks.name/blog/git-commit/</a></p>
+                    <p>git commit message：<a href="http://karma-runner.github.io/1.0/dev/git-commit-msg.html">http://karma-runner.github.io/1.0/dev/git-commit-msg.html</a></p>
+                </div>
+            </section>-->
+        </center>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            history: true,
+
+            // More info https://github.com/hakimel/reveal.js#dependencies
+            dependencies: [{
+                src: 'plugin/markdown/marked.js'
+            }, {
+                src: 'plugin/markdown/markdown.js'
+            }, {
+                src: 'plugin/notes/notes.js',
+                async: true
+            }, {
+                src: 'plugin/highlight/highlight.js',
+                async: true,
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }]
+        });
+    </script>
+</body>
+
+</html>
